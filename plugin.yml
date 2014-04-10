@@ -1,0 +1,8 @@
+name: OWHQuests
+description: "A plugin about quests and things."
+version: 0.1
+main: info.omgwtfhax.quests.core.BukkitPlugin
+commands:
+  owhquests:
+    description: "Main OWHQuests command."
+    usage: /owhquests
