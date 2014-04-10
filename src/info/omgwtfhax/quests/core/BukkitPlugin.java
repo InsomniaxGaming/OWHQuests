@@ -2,14 +2,17 @@ package info.omgwtfhax.quests.core;
 
 import java.util.logging.Level;
 
-import info.omgwtfhax.quests.items.QuestBook;
+import info.omgwtfhax.quests.event.BukkitListener;
+import info.omgwtfhax.quests.item.QuestBook;
 import info.omgwtfhax.quests.vault.Permissions;
 import net.citizensnpcs.api.CitizensPlugin;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -50,6 +53,10 @@ public class BukkitPlugin extends JavaPlugin
 			this.getLogger().info("Permissions setup successful.");
 		else
 			this.getLogger().warning("Permissions setup failed, falling back to OP-only for any permissions");
+		
+		quests = new OWHQuests(this);
+		
+		Bukkit.getPluginManager().registerEvents(new BukkitListener(quests), this);
 	}
 	
 	public void onDisable()
@@ -67,13 +74,44 @@ public class BukkitPlugin extends JavaPlugin
 		Bukkit.broadcastMessage(message);
 	}
 	
+	public void toggleQuestBook(Player player)
+	{
+		ItemStack book = QuestBook.getBook(player.getName());
+		
+		if(player.getInventory().contains(book))
+		{
+			player.getInventory().remove(book);
+			player.sendMessage(ChatColor.GREEN + "Quest book was removed from your inventory.");
+		}
+		else
+		{
+			if(player.getInventory().addItem(book).containsKey(book))
+			{				
+				//If the book we tried to add is in the list of not added items tell the user their inventory is full
+				player.sendMessage(ChatColor.RED + "There's no place in your inventory to put the quest book.");
+			}
+			else
+			{
+				//Book added successfully
+				player.sendMessage(ChatColor.GREEN + "Quest book was added to your inventory.");
+			}
+		}
+	}
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		if(p.has(sender, cmd, false))
 		{
 			if(cmd.getName().equalsIgnoreCase("owhquests"))
 			{
-				((Player)sender).getInventory().addItem(QuestBook.getBook());
+				if(args.length > 0)
+				{
+					if(args[0].equalsIgnoreCase("book"))
+					{
+						this.toggleQuestBook((Player)sender);
+						return true;
+					}
+				}
 			}
 		}
 		return false;

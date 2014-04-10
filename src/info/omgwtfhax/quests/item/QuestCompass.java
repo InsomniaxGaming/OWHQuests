@@ -1,4 +1,4 @@
-package info.omgwtfhax.quests.items;
+package info.omgwtfhax.quests.item;
 
 import java.util.HashMap;
 

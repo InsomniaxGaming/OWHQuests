@@ -1,4 +1,4 @@
-package info.omgwtfhax.quests.items;
+package info.omgwtfhax.quests.item;
 
 import java.util.HashMap;
 
@@ -27,13 +27,15 @@ public class QuestBook{
 	}
 	
 	//Test book
-	public static ItemStack getBook()
+	public static ItemStack getDefaultBook()
 	{
 		ItemStack book = new ItemStack(Material.WRITTEN_BOOK,1);
 		BookMeta meta = (BookMeta) book.getItemMeta();
-		meta.addPage(ChatColor.DARK_RED + "whatup");
 		meta.setTitle("Quests");
 		meta.setAuthor("Amperion");
+		meta.addPage("Welcome to OWHQuests! This book will contain information about all quests you receive. You currently have no missions. Read the following pages for useful command references.");
+		meta.addPage(ChatColor.GOLD + "/owhquests compass\n" + ChatColor.BLACK + " will toggle a compass pointing to your current mission's waypoint. If you already have a compass equipped, that compass will be used instead.");
+		meta.addPage(ChatColor.GOLD + "/owhquests book\n" + ChatColor.BLACK + " will toggle this quest book. It is the only way to remove this book from your inventory.");
 		book.setItemMeta(meta);
 		return book;
 	}
