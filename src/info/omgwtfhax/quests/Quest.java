@@ -32,7 +32,7 @@ public class Quest {
 	@Override
 	public String toString()
 	{
-		return name;
+		return id + ": " + name;
 	}
 	
 	@Override

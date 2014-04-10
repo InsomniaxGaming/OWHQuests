@@ -18,11 +18,22 @@ public class OWHQuests {
 		bukkitPlugin = instance;
 	}
 	
+	/**
+	 * Load up defaults and/or saved data for the given player.
+	 * */
 	public void initializePlayer(String player)
 	{
 		QuestCompass.addCompass(player);
 		
 		if(QuestBook.getBook(player) == null)
 			QuestBook.addBook(player, QuestBook.getDefaultBook());
+	}
+	
+	/**
+	 * Remove all contemporary data pertaining to the given player.
+	 * */
+	public void finalizePlayer(String player)
+	{
+		QuestCompass.resetCompassTarget(player);
 	}
 }

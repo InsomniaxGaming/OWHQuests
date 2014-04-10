@@ -10,6 +10,7 @@ import net.citizensnpcs.api.CitizensPlugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -65,14 +66,19 @@ public class BukkitPlugin extends JavaPlugin
 		this.saveConfig();
 	}
 	
-	public static void sendMessage(String player, String message)
-	{
-		Bukkit.getPlayer(player).sendMessage(message);
-	}
-	
 	public static void broadcast(String message)
 	{
 		Bukkit.broadcastMessage(message);
+	}
+	
+	public static void setCompassTarget(String player, Location loc)
+	{
+		Bukkit.getPlayer(player).setCompassTarget(loc);
+	}
+	
+	public static Location getCompassTarget(String player)
+	{
+		return Bukkit.getPlayer(player).getCompassTarget();
 	}
 	
 	public void toggleQuestBook(Player player)
@@ -101,7 +107,7 @@ public class BukkitPlugin extends JavaPlugin
 	
 	public void toggleCompass(Player player)
 	{
-		ItemStack compass = QuestCompass.getCompass(player.getName());
+		ItemStack compass = QuestCompass.getCompass();
 		
 		if(player.getInventory().contains(compass))
 		{
