@@ -34,7 +34,9 @@ public class BukkitPlugin extends JavaPlugin
 	/**Main class for WorldGuard plugin API.*/
 	WorldGuardPlugin worldGuardPlugin;
 	
-	OWHQuests quests;
+	OWHQuests questPlugin;
+	
+	QuestCompass questCompass = new QuestCompass();
 	
 	
 	public void onEnable()
@@ -56,9 +58,9 @@ public class BukkitPlugin extends JavaPlugin
 		else
 			this.getLogger().warning("Permissions setup failed, falling back to OP-only for any permissions");
 		
-		quests = new OWHQuests(this);
+		questPlugin = new OWHQuests(this);
 		
-		Bukkit.getPluginManager().registerEvents(new BukkitListener(quests), this);
+		Bukkit.getPluginManager().registerEvents(new BukkitListener(questPlugin), this);
 	}
 	
 	public void onDisable()

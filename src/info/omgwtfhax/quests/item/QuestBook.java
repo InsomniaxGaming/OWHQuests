@@ -26,6 +26,11 @@ public class QuestBook{
 		return QUEST_BOOKS.get(player);
 	}
 	
+	public static HashMap<String, ItemStack> getBooks()
+	{
+		return QUEST_BOOKS;
+	}
+	
 	//Test book
 	public static ItemStack getDefaultBook()
 	{
