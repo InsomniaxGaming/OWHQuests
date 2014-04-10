@@ -21,6 +21,7 @@ public class OWHQuests {
 	public void initializePlayer(String player)
 	{
 		QuestCompass.addCompass(player);
+		
 		if(QuestBook.getBook(player) == null)
 			QuestBook.addBook(player, QuestBook.getDefaultBook());
 	}

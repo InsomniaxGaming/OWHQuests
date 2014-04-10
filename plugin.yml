@@ -2,6 +2,8 @@ name: OWHQuests
 description: "A plugin about quests and things."
 version: 0.1
 main: info.omgwtfhax.quests.core.BukkitPlugin
+depend: [WorldGuard, Citizens]
+softdepend: [Vault]
 commands:
   owhquests:
     description: "Main OWHQuests command."

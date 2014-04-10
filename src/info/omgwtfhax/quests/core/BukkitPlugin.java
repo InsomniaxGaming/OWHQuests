@@ -4,6 +4,7 @@ import java.util.logging.Level;
 
 import info.omgwtfhax.quests.event.BukkitListener;
 import info.omgwtfhax.quests.item.QuestBook;
+import info.omgwtfhax.quests.item.QuestCompass;
 import info.omgwtfhax.quests.vault.Permissions;
 import net.citizensnpcs.api.CitizensPlugin;
 
@@ -98,6 +99,30 @@ public class BukkitPlugin extends JavaPlugin
 		}
 	}
 	
+	public void toggleCompass(Player player)
+	{
+		ItemStack compass = QuestCompass.getCompass(player.getName());
+		
+		if(player.getInventory().contains(compass))
+		{
+			player.getInventory().remove(compass);
+			player.sendMessage(ChatColor.GREEN + "Quest compass was removed from your inventory.");
+		}
+		else
+		{
+			if(player.getInventory().addItem(compass).containsKey(compass))
+			{				
+				//If the compass we tried to add is in the list of not added items tell the user their inventory is full
+				player.sendMessage(ChatColor.RED + "There's no place in your inventory to put the quest compass.");
+			}
+			else
+			{
+				//Book added successfully
+				player.sendMessage(ChatColor.GREEN + "Quest compass was added to your inventory.");
+			}
+		}
+	}
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
 		if(p.has(sender, cmd, false))
@@ -109,6 +134,11 @@ public class BukkitPlugin extends JavaPlugin
 					if(args[0].equalsIgnoreCase("book"))
 					{
 						this.toggleQuestBook((Player)sender);
+						return true;
+					}
+					if(args[0].equalsIgnoreCase("compass"))
+					{
+						this.toggleCompass((Player)sender);
 						return true;
 					}
 				}

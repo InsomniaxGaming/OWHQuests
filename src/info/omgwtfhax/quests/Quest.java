@@ -3,7 +3,7 @@ package info.omgwtfhax.quests;
 public class Quest {
 	
 	/**Number of quests that currently exist.*/
-	private static int COUNT;
+	private static int COUNT = 0;
 	
 	/**The unique ID of this quest*/
 	private int id;
