@@ -2,12 +2,14 @@ package info.omgwtfhax.quests.core;
 
 import java.util.logging.Level;
 
+import info.omgwtfhax.quests.items.QuestBook;
 import info.omgwtfhax.quests.vault.Permissions;
 import net.citizensnpcs.api.CitizensPlugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -71,7 +73,7 @@ public class BukkitPlugin extends JavaPlugin
 		{
 			if(cmd.getName().equalsIgnoreCase("owhquests"))
 			{
-				
+				((Player)sender).getInventory().addItem(QuestBook.getBook());
 			}
 		}
 		return false;
