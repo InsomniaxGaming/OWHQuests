@@ -7,9 +7,12 @@ import info.omgwtfhax.quests.item.QuestCompass;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -40,23 +43,35 @@ public class BukkitListener implements Listener{
 	}
 	
 	@EventHandler
-	public void onItemMoved(InventoryMoveItemEvent e)
+	public void onInventoryClick(InventoryClickEvent e)
 	{
-		System.out.println("item moved: " + e.getItem());
-			if(e.getItem().equals(QuestCompass.getCompass()))
+		// If either item is null (caused by failure to immediately update inventories after cancelled events),
+		// return as to avoid big ugly errors in console that make me sad.
+		if(e.getCursor() == null)
+			return;
+		if(e.getCurrentItem() == null)
+			return;
+		
+		if(e.getInventory() != e.getWhoClicked().getInventory())
+		{
+			if(e.getCursor().equals(QuestCompass.getCompass()) || e.getCurrentItem().equals(QuestCompass.getCompass()))
 			{
+				e.setResult(Result.DENY);
 				e.setCancelled(true);
 				return;
 			}
 			
 			for(String key : QuestBook.getBooks().keySet())
 			{
-				if(e.getItem().equals(QuestBook.getBook(key)))
+				if(e.getCursor().equals(QuestBook.getBook(key)) || e.getCurrentItem().equals(QuestCompass.getCompass()))
 				{
+					e.setResult(Result.DENY);
 					e.setCancelled(true);
 					return;
 				}
 			}
+		}
+		
 	}
 	
 	@EventHandler
