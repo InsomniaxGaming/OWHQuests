@@ -5,17 +5,11 @@ import info.omgwtfhax.quests.item.QuestBook;
 import info.omgwtfhax.quests.item.QuestCompass;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemSpawnEvent;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -61,9 +55,11 @@ public class BukkitListener implements Listener{
 				return;
 			}
 			
-			for(String key : QuestBook.getBooks().keySet())
+			ItemStack questBook = QuestBook.getBook(e.getWhoClicked().getName());
+			
+			if(questBook != null)
 			{
-				if(e.getCursor().equals(QuestBook.getBook(key)) || e.getCurrentItem().equals(QuestCompass.getCompass()))
+				if(e.getCursor().equals(questBook) || e.getCurrentItem().equals(QuestCompass.getCompass()))
 				{
 					e.setResult(Result.DENY);
 					e.setCancelled(true);
@@ -79,7 +75,7 @@ public class BukkitListener implements Listener{
 	{
 		if(e.getItemDrop().getItemStack().equals(QuestCompass.getCompass()))
 		{
-			e.getPlayer().sendMessage(ChatColor.GOLD + "Waypoint compass deleted. Use /owhquests compass to retrieve it.");
+			e.getPlayer().sendMessage(String.format("%g Waypoint compass deleted. Use  %h owhquests compass %g to retrieve it.", ChatColor.GOLD, ChatColor.GREEN));
 			return;
 		}
 			
@@ -87,7 +83,7 @@ public class BukkitListener implements Listener{
 		{
 			if(e.getItemDrop().getItemStack().equals(QuestBook.getBook(key)))
 			{
-				e.getPlayer().sendMessage(ChatColor.GOLD + "Quest book deleted. Use /owhquests book to retrieve it.");
+				e.getPlayer().sendMessage(String.format("%g Waypoint compass deleted. Use  %h owhquests book %g to retrieve it.", ChatColor.GOLD, ChatColor.GREEN));
 				return;
 			}
 		}

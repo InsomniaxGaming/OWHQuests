@@ -1,5 +1,6 @@
 package info.omgwtfhax.quests.core;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 
 import info.omgwtfhax.quests.event.BukkitListener;
@@ -13,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -131,13 +133,63 @@ public class BukkitPlugin extends JavaPlugin
 		}
 	}
 	
+	public boolean createQuest(Player player, String[] args)
+	{
+		String questName = null;
+		boolean buildingName = false;
+		
+		for(int i = 1; i < args.length; i++)
+		{
+			if(args[i].startsWith("\""))
+			{
+				questName = args[i].substring(1);
+				buildingName = true;
+			}
+			if(args[i].endsWith("\""))
+			{
+				questName += (" " + args[i].substring(0,args[i].length()-1));
+				break;
+			}
+			
+			else if(buildingName)
+			{
+				questName += (" " + args[i]);
+			}
+		}
+		
+		if((questName == null) || (questName.equals(" ")))
+		{
+			player.sendMessage(ChatColor.RED + "You must specify a name.");
+			return false;
+		}
+		
+		player.sendMessage(ChatColor.GREEN + "Quest added successfully!");
+		return true;
+	}
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
-		if(p.has(sender, cmd, false))
+		if(sender instanceof ConsoleCommandSender)
+		{
+			getLogger().info("Console cannot use this plugin.");
+			return true;
+		}
+		
+		if(args.length == 0)
+			return true;
+		
+		if(p.has(sender, cmd, Arrays.copyOfRange(args, 0, 1), false))
 		{
 			if(cmd.getName().equalsIgnoreCase("owhquests"))
 			{
-				if(args.length > 0)
+				if(args.length > 1)
+				{
+					if(args[0].equalsIgnoreCase("addquest"))
+					{
+						return createQuest((Player)sender, Arrays.copyOfRange(args, 1, args.length));
+					}
+				}
+				else if(args.length > 0)
 				{
 					if(args[0].equalsIgnoreCase("book"))
 					{

@@ -36,4 +36,17 @@ public class OWHQuests {
 	{
 		QuestCompass.resetCompassTarget(player);
 	}
+	
+	/**
+	 * Returns the list of current quests.
+	 * */
+	public List<Quest> getQuests()
+	{
+		return quests;
+	}
+	
+	public void addQuest(Quest quest)
+	{
+		quests.add(quest);
+	}
 }
